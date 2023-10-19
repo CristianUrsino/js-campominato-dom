@@ -20,6 +20,14 @@ btn.addEventListener('click', function(){
     if(boxTotal === '' || boxTotal === 'easy') boxTotal = 100;
     else if(boxTotal === 'medium') boxTotal = 81;
     else boxTotal = 49;
+    // definisco le bombe
+    const NUM_BOMBS = 16;
+    const bombs = [];
+    // definisco la locazione delle bombe
+    while(bombs.length < NUM_BOMBS){
+        let bomb = randomInteger(1, boxTotal);
+        if(!bombs.includes(bomb)) bombs.push(bomb);
+    }
     // creo le box 
     for(let i=0; i < boxTotal; i++){
         grid.append(newBox(i,boxTotal));
