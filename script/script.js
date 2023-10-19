@@ -49,6 +49,7 @@ function play() {
  * @returns {object}
  */
 function newBox(index,totale,bombs){
+
     const box = document.createElement('div');
     box.innerHTML = index + 1;
     box.classList.add('box');
@@ -56,11 +57,18 @@ function newBox(index,totale,bombs){
     box.style.height = `calc(100% / ${Math.sqrt(totale)})`;
     console.log(box.style.width);
     let maxScope = totale - NUM_BOMBS;
-    box.addEventListener('click', handleClick);
-    function handleClick() {
+    //click
+    box.addEventListener('click', boxClicked);
+    function boxClicked() {
         if (bombs.includes(index)) {
             this.classList.add('bomb');
             this.innerHTML = `<i class="fa-solid fa-bomb fa-beat-fade fa-lg"></i>`;
+            //blocca click
+            const allBoxes = document.querySelectorAll('.box');
+            for (let i = 0; i < totale; i++) {
+                console.log(allBoxes[i]);
+                if(i !== index)allBoxes[i].removeEventListener('click', boxClicked);
+            }
             gameOverResult.innerHTML = `HAI PERSO, IL TUO PUNTEGGIO E': <strong>${scope}/${maxScope}</strong>`;
             gameOverResult.classList.add('alert-danger');
         } else {
@@ -73,9 +81,9 @@ function newBox(index,totale,bombs){
             }
             console.log(scope);
         }
-        box.removeEventListener('click', handleClick);
+        this.removeEventListener('click', boxClicked);
     }
 
-    return box
+    return box;
 }
 }
