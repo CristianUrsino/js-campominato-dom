@@ -9,11 +9,14 @@ const difficultySelection = document.getElementById('difficulty-selection');
 const gameOverResult = document.querySelector('.alert');
 let scope =  0;
 const NUM_BOMBS = 16;
+let flagLose = false;
+
 
 btn.addEventListener('click', play);
 
 function play() {
     //reset variabili
+    flagLose = false;
     scope = 0;
         // *controlla se esiste già la grid 
     let firstChild = sectionGrid.firstChild;
@@ -49,7 +52,6 @@ function play() {
  * @returns {object}
  */
 function newBox(index,totale,bombs){
-
     const box = document.createElement('div');
     box.innerHTML = index + 1;
     box.classList.add('box');
@@ -60,17 +62,13 @@ function newBox(index,totale,bombs){
     //click
     box.addEventListener('click', boxClicked);
     function boxClicked() {
+        if(flagLose) return;
         if (bombs.includes(index)) {
             this.classList.add('bomb');
             this.innerHTML = `<i class="fa-solid fa-bomb fa-beat-fade fa-lg"></i>`;
-            //blocca click
-            const allBoxes = document.querySelectorAll('.box');
-            for (let i = 0; i < totale; i++) {
-                console.log(allBoxes[i]);
-                if(i !== index)allBoxes[i].removeEventListener('click', boxClicked);
-            }
             gameOverResult.innerHTML = `HAI PERSO, IL TUO PUNTEGGIO E': <strong>${scope}/${maxScope}</strong>`;
             gameOverResult.classList.add('alert-danger');
+            flagLose = true;
         } else {
             if (!this.classList.contains('clicked')) scope++;
             this.classList.add('clicked');
