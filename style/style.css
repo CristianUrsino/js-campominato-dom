@@ -1,0 +1,30 @@
+body{
+    background-color: rgb(202, 202, 202) !important;
+}
+main .btn{
+    display: block;
+    margin: 20px auto;
+}
+.grid{
+    width: 598px;
+    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px auto;
+    background-color: black;
+}
+.box{
+    margin: 0;
+    border: 1px solid white;
+    box-shadow: 1px 1px 7px rgb(184, 181, 181) inset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+}
+.clicked{
+    background-color: aquamarine;
+    box-shadow: 1px 1px 15px rgb(184, 181, 181) inset;
+    color: black;
+}
