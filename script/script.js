@@ -69,6 +69,17 @@ function newBox(index,totale,bombs){
             gameOverResult.innerHTML = `HAI PERSO, IL TUO PUNTEGGIO E': <strong>${scope}/${maxScope}</strong>`;
             gameOverResult.classList.add('alert-danger');
             flagLose = true;
+            const allBoxes = document.querySelectorAll('.box');
+            setTimeout(function(){
+                for(let i = 0; i < allBoxes.length; i++){
+                    if (bombs.includes(i)){
+                        allBoxes[i].classList.add('bomb');
+                        allBoxes[i].innerHTML = `<i class="fa-solid fa-bomb fa-beat-fade fa-lg"></i>`;
+                    }
+                }
+            },1000);
+            
+
         } else {
             if (!this.classList.contains('clicked')) scope++;
             this.classList.add('clicked');
