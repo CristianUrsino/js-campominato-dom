@@ -6,9 +6,16 @@ function campoMinato(){
 const btn = document.querySelector('.btn');
 const sectionGrid = document.getElementById('section-grid');
 const difficultySelection = document.getElementById('difficulty-selection');
+const gameOverResult = document.querySelector('.alert');
+let scope =  0;
+const NUM_BOMBS = 16;
 
-btn.addEventListener('click', function(){
-    // controlla se esiste già la grid 
+btn.addEventListener('click', play);
+
+function play() {
+    //reset variabili
+    scope = 0;
+        // *controlla se esiste già la grid 
     let firstChild = sectionGrid.firstChild;
     if(firstChild) sectionGrid.removeChild(firstChild);
     // crea e appende la grid 
@@ -21,7 +28,6 @@ btn.addEventListener('click', function(){
     else if(boxTotal === 'medium') boxTotal = 81;
     else boxTotal = 49;
     // definisco le bombe
-    const NUM_BOMBS = 16;
     const bombs = [];
     // definisco la locazione delle bombe
     while(bombs.length < NUM_BOMBS){
@@ -30,9 +36,10 @@ btn.addEventListener('click', function(){
     }
     // creo le box 
     for(let i=0; i < boxTotal; i++){
-        grid.append(newBox(i,boxTotal));
+        grid.append(newBox(i,boxTotal, bombs));
     }
-});
+    console.log(bombs);
+};
 
 /**
  * [newBox]
@@ -41,17 +48,34 @@ btn.addEventListener('click', function(){
  * @param {number} index 
  * @returns {object}
  */
-function newBox(index,totale){
+function newBox(index,totale,bombs){
     const box = document.createElement('div');
     box.innerHTML = index + 1;
     box.classList.add('box');
     box.style.width = `calc(100% / ${Math.sqrt(totale)})`;
     box.style.height = `calc(100% / ${Math.sqrt(totale)})`;
     console.log(box.style.width);
-    box.addEventListener('click', function(){
-        box.classList.add('clicked');
-        console.log(`hai cliccato la casella: ${index + 1}`);
-    });
+    let maxScope = totale - NUM_BOMBS;
+    box.addEventListener('click', handleClick);
+    function handleClick() {
+        if (bombs.includes(index)) {
+            this.classList.add('bomb');
+            this.innerHTML = `<i class="fa-solid fa-bomb fa-beat-fade fa-lg"></i>`;
+            gameOverResult.innerHTML = `HAI PERSO, IL TUO PUNTEGGIO E': <strong>${scope}/${maxScope}</strong>`;
+            gameOverResult.classList.add('alert-danger');
+        } else {
+            if (!this.classList.contains('clicked')) scope++;
+            this.classList.add('clicked');
+            console.log(`hai cliccato la casella: ${index + 1}`);
+            if (scope === maxScope) {
+                gameOverResult.innerHTML = `HAI VINTO, IL TUO PUNTEGGIO E': <strong>${scope}/${maxScope}</strong>`;
+                gameOverResult.classList.add('alert-primary');
+            }
+            console.log(scope);
+        }
+        box.removeEventListener('click', handleClick);
+    }
+
     return box
 }
 }

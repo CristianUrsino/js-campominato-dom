@@ -28,3 +28,8 @@ main .btn{
     box-shadow: 1px 1px 15px rgb(184, 181, 181) inset;
     color: black;
 }
+.bomb{
+    background-color: rgb(244, 44, 44);
+    box-shadow: 1px 1px 15px rgb(184, 181, 181) inset;
+    color: black;
+}
