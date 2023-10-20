@@ -44,6 +44,7 @@ function variableReset(){
     if(firstChild) sectionGrid.removeChild(firstChild);
     gameOverResult.className = 'alert';
     gameOverResult.innerHTML = '';
+    bombs = [];
 }
 
 /**
@@ -98,7 +99,7 @@ function newBox(index,totale){
 function boxClicked() {
     console.log(this.innerHTML);
     if(flagLose) return;
-    if (bombs.includes(parseInt(this.innerHTML) - 1)) {
+    if (bombs.includes(parseInt(this.textContent - 1))) {
         bombClicked(this);
     } else {
         safeBoxClicked(this);
